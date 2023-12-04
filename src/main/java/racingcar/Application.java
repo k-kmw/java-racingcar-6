@@ -1,7 +1,9 @@
 package racingcar;
 
 import racingcar.controller.RacingGameController;
+import racingcar.service.CarsService;
 import racingcar.service.RacingGameService;
+import racingcar.service.RefereeService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
@@ -10,7 +12,9 @@ public class Application {
 
         InputView inputView = new InputView();
         OutputView outputView = new OutputView();
-        RacingGameService racingGameService = new RacingGameService();
+        RefereeService refereeService = new RefereeService();
+        CarsService carsService = new CarsService();
+        RacingGameService racingGameService = new RacingGameService(refereeService, carsService);
         RacingGameController racingGameController = new RacingGameController(inputView, outputView, racingGameService);
         racingGameController.start();
     }

@@ -23,7 +23,7 @@ public class RacingGameController {
     public void start() {
         UserInput.CarNameDTO carNamesDTO = getCarNamesDTO();
         UserInput.TryNumDTO tryNumDTO = getTryNumDTO();
-        Game game = racingGameService.createGame(carNamesDTO, tryNumDTO);
+        Game game = racingGameService.createGame(carNamesDTO.toList(), tryNumDTO.getNum());
         Result result = racingGameService.play(game);
         outputView.printResultMessage(result);
         Cars winnerCars = racingGameService.getWinner(game);

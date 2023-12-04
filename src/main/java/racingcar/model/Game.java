@@ -1,6 +1,5 @@
 package racingcar.model;
 
-import racingcar.model.dto.UserInput;
 import racingcar.model.vo.Result;
 
 import java.util.stream.Collectors;
@@ -17,19 +16,25 @@ public class Game {
         this.tryNum = tryNum;
     }
 
-    public static Game create(UserInput.CarNameDTO carNamesDTO, UserInput.TryNumDTO tryNumDTO) {
-        Referee referee = new Referee();
-        Cars cars = new Cars(carNamesDTO.toList());
-        return new Game(referee, cars, tryNumDTO.getNum());
+    public static Game create(Referee referee, Cars cars, int tryNum) {
+        return new Game(referee, cars, tryNum);
     }
 
     public Result play() {
         Result result = new Result();
         for(int i=0; i<tryNum; i++) {
-            cars.race();
+            raceOneTurn();
             updateResult(result, i);
         }
         return result;
+    }
+
+    public Cars getWinner() {
+        return referee.judge(cars);
+    }
+
+    private void raceOneTurn() {
+        cars.race();
     }
 
     private void updateResult(Result result, int i) {
@@ -44,9 +49,5 @@ public class Game {
         if (i != tryNum -1) {
             result.getResult().append("\n\n");
         }
-    }
-
-    public Cars getWinner() {
-        return referee.judge(cars);
     }
 }

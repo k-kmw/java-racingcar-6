@@ -1,14 +1,27 @@
 package racingcar.service;
 
+import racingcar.model.Car;
 import racingcar.model.Cars;
 import racingcar.model.Game;
-import racingcar.model.dto.UserInput;
+import racingcar.model.Referee;
 import racingcar.model.vo.Result;
+
+import java.util.List;
 
 public class RacingGameService {
 
-    public Game createGame(UserInput.CarNameDTO carNamesDTO, UserInput.TryNumDTO tryNumDTO) {
-        return Game.create(carNamesDTO, tryNumDTO);
+    private final RefereeService refereeService;
+    private final CarsService carsService;
+
+    public RacingGameService(RefereeService refereeService, CarsService carsService) {
+        this.refereeService = refereeService;
+        this.carsService = carsService;
+    }
+
+    public Game createGame(List<Car> carList, int tryNum) {
+        Referee referee = refereeService.createReferee();
+        Cars cars = carsService.createCars(carList);
+        return Game.create(referee, cars, tryNum);
     }
 
     public Result play(Game game) {
