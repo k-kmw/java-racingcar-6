@@ -26,8 +26,8 @@ public class Cars {
     }
 
     private void validateCarsSize(List<Car> cars) {
-        if(cars.size() < 2) {
-            throw new IllegalArgumentException("[Error] 자동차는 최소 2대를 입력해야 합니다.");
+        if(cars.isEmpty()) {
+            throw new IllegalArgumentException("[Error] 자동차는 최소 1대를 입력해야 합니다.");
         }
     }
 
