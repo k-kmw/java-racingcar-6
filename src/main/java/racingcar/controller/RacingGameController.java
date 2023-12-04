@@ -2,9 +2,9 @@ package racingcar.controller;
 
 import racingcar.model.Cars;
 import racingcar.model.Game;
-import racingcar.model.Referee;
 import racingcar.model.dto.UserInput;
 import racingcar.model.vo.Result;
+import racingcar.service.RacingGameService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
@@ -12,19 +12,21 @@ public class RacingGameController {
 
     private final InputView inputView;
     private final OutputView outputView;
+    private final RacingGameService racingGameService;
 
-    public RacingGameController(InputView inputView, OutputView outputView) {
+    public RacingGameController(InputView inputView, OutputView outputView, RacingGameService racingGameService) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.racingGameService = racingGameService;
     }
 
     public void start() {
         UserInput.CarNameDTO carNamesDTO = getCarNamesDTO();
         UserInput.TryNumDTO tryNumDTO = getTryNumDTO();
-        Game game = createGame(carNamesDTO, tryNumDTO);
-        Result result = game.play();
+        Game game = racingGameService.createGame(carNamesDTO, tryNumDTO);
+        Result result = racingGameService.play(game);
         outputView.printResultMessage(result);
-        Cars winnerCars = game.getWinner();
+        Cars winnerCars = racingGameService.getWinner(game);
         outputView.printWinner(winnerCars);
     }
 
@@ -36,11 +38,5 @@ public class RacingGameController {
     private UserInput.TryNumDTO getTryNumDTO() {
         outputView.printInputTryNumMessage();
         return new UserInput.TryNumDTO(inputView.getString());
-    }
-
-    private Game createGame(UserInput.CarNameDTO carNamesDTO, UserInput.TryNumDTO tryNumDTO) {
-        Referee referee = new Referee();
-        Cars cars = new Cars(carNamesDTO.toList());
-        return new Game(referee, cars, tryNumDTO.getNum());
     }
 }
