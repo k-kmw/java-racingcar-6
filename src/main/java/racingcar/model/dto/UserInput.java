@@ -16,12 +16,16 @@ public class UserInput {
             this.carNames = carNames;
         }
 
-        private void validate(String carNames) {
-
-        }
-
-        public String getCarNames() {
-            return carNames;
+        private void validate(String userInput) {
+            String[] carNames = userInput.split(",");
+            if (carNames.length == 1) {
+                throw new IllegalArgumentException("[Error] 유효하지 않은 자동차 이름");
+            }
+            for (String carName : carNames) {
+                if (carName.length() > 5) {
+                    throw new IllegalArgumentException("[Error] 자동차 이름은 5글자 이하");
+                }
+            }
         }
 
         public List<Car> toList() {
@@ -43,8 +47,15 @@ public class UserInput {
             this.tryNum = tryNum;
         }
 
-        private void validate(String tryNum) {
-
+        private void validate(String userInput) {
+            try {
+                int tryNum = Integer.parseInt(userInput);
+                if (tryNum < 0) {
+                    throw new IllegalArgumentException("[Error] 유효하지 않은 시도할 횟수");
+                }
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("[Error] 유효하지 않은 시도할 횟수");
+            }
         }
 
         public int getNum() {

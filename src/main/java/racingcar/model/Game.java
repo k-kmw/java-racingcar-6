@@ -2,6 +2,8 @@ package racingcar.model;
 
 import racingcar.model.vo.Result;
 
+import java.util.stream.Collectors;
+
 public class Game {
 
     private final Referee referee;
@@ -18,14 +20,23 @@ public class Game {
         Result result = new Result();
         for(int i=0; i<tryNum; i++) {
             cars.race();
-            for (Car car : cars.getCars()) {
-                result.getTrack().append(car.getName()).append(" : ").append(car.getTrack()).append("\n");
-            }
-            if(i != tryNum-1) {
-                result.getTrack().append("\n");
-            }
+            updateResult(result, i);
         }
         return result;
+    }
+
+    private void updateResult(Result result, int i) {
+        String oneStepResult = cars.getCars().stream()
+                .map(car -> car.getName() + " : " + car.getTrack())
+                .collect(Collectors.joining("\n"));
+        result.getResult().append(oneStepResult);
+        if (i == tryNum - 1) {
+            result.getResult().append("\n");
+            return;
+        }
+        if (i != tryNum -1) {
+            result.getResult().append("\n\n");
+        }
     }
 
     public Cars getWinner() {

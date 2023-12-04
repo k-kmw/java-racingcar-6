@@ -2,13 +2,13 @@ package racingcar.model.vo;
 
 public class Result {
 
-    private final StringBuilder track;
+    private final StringBuilder result;
 
     public Result() {
-        this.track = new StringBuilder();
+        this.result = new StringBuilder();
     }
 
-    public StringBuilder getTrack() {
-        return track;
+    public StringBuilder getResult() {
+        return result;
     }
 }
