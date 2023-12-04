@@ -18,7 +18,7 @@ public class RacingGameService {
         this.carsService = carsService;
     }
 
-    public Game createGame(List<Car> carList, int tryNum) {
+    public Game createGame(List<Car> carList, String tryNum) {
         Referee referee = refereeService.createReferee();
         Cars cars = carsService.createCars(carList);
         return Game.create(referee, cars, tryNum);

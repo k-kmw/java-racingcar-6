@@ -10,13 +10,25 @@ public class Game {
     private final Cars cars;
     private final int tryNum;
 
-    private Game(Referee referee, Cars cars, int tryNum) {
+    private Game(Referee referee, Cars cars, String inputTryNum) {
+        validateTryNum(inputTryNum);
         this.referee = referee;
         this.cars = cars;
-        this.tryNum = tryNum;
+        this.tryNum = Integer.parseInt(inputTryNum);
     }
 
-    public static Game create(Referee referee, Cars cars, int tryNum) {
+    private void validateTryNum(String userInput) {
+        try {
+            int tryNum = Integer.parseInt(userInput);
+            if(tryNum < 1) {
+                throw new IllegalArgumentException("시도 횟수는 1 이상이 되어야 합니다.");
+            }
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("시도 횟수는 숫자를 입력해야 합니다.");
+        }
+    }
+
+    public static Game create(Referee referee, Cars cars, String tryNum) {
         return new Game(referee, cars, tryNum);
     }
 

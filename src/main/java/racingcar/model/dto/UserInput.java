@@ -35,8 +35,8 @@ public class UserInput {
             this.tryNum = tryNum;
         }
 
-        public int getNum() {
-            return Integer.parseInt(tryNum);
+        public String getNum() {
+            return tryNum;
         }
     }
 
